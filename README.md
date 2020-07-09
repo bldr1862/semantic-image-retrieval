@@ -1,6 +1,6 @@
 # Semantic Image Retrieval
 
-<img src="example.png" alt="drawing" style="width:700px;"/>
+<img src="example.PNG" alt="drawing" style="width:700px;"/>
 
 ### Instalar dependencias
 
