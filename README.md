@@ -6,7 +6,6 @@
 
 ```
 python -m venv virtual_env
-virtual_env/Scripts/activate
 cd virtual_env/Scripts/
 activate
 cd ../../
