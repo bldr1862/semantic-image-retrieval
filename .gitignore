@@ -1,0 +1,6 @@
+models/*
+virtual_env/*
+uploads/*
+__pycache__/*
+static/uploads/*
+metadata/*

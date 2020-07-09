@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Search
+{% endblock %}
+
+{% block search_active %} 
+active  bg-light
+{% endblock %}
+
+{% block content %}
+    <!-- Search form -->
+    <form method="post">
+      <div class="md-form mt-0">
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="query" name="query">
+      </div>
+    </form>
+    
+
+    <!-- Images grid -->
+    {% if query %}
+      <div class="ml-0 mt-3 mb-1 col-md-8">
+        <p>Query: {{query}}</p>
+      </div>
+    {% endif %}
+
+    {% if images %}
+      <div class="mt-1" id="images-grid">
+        {% for img in images %}
+          <div class="row">
+            {% if img[0] %}
+              <div class="col-md-3 mt-1 mb-1">
+                <p class="text-justify" style="font-size:11px">{{img[0]}}</p>
+                <img data-src="{{ url_for('static', filename=img[0]) }}" class="img-fluid lazy" alt="Responsive image">
+              </div>
+            {% endif %}
+            {% if img[1] %}
+              <div class="col-md-3 mt-1 mb-1">
+                <p class="text-justify" style="font-size:11px">{{img[1]}}</p>
+                <img data-src="{{ url_for('static', filename=img[1]) }}" class="img-fluid lazy" alt="Responsive image">
+              </div>
+            {% endif %}
+            {% if img[2] %}
+              <div class="col-md-3 mt-1 mb-1">
+                <p class="text-justify" style="font-size:11px">{{img[2]}}</p>
+                <img data-src="{{ url_for('static', filename=img[2]) }}" class="img-fluid lazy" alt="Responsive image">
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+{% endblock %}

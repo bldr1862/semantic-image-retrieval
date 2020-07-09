@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Search
+{% endblock %}
+
+{% block upload_active %} 
+active  bg-light 
+{% endblock %}
+
+{% block content %}
+    <!-- Search form -->
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" multiple="" name="file[]">
+        <input type=submit value=Upload>
+    </form>
+{% endblock %}
