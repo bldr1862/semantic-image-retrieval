@@ -1,6 +1,13 @@
-models/*
+# Do not upload models to git
+models/english-128/*
+models/english-300/*
+models/espanol-128/*
+models/espanol-300/*
+
+# Do not upload virtual enviroment
 virtual_env/*
-uploads/*
 __pycache__/*
+
+# Do not upload local data
 static/uploads/*
 metadata/*
