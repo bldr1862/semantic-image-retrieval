@@ -8,7 +8,7 @@ from unidecode import unidecode
 from gensim.models import KeyedVectors
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1" # Comenta esta linea si quieres usar cuda
 import cv2
 import pandas as pd
 from numpy import dot
