@@ -28,6 +28,9 @@ def index():
 
 @app.route('/search/', methods=["GET", "POST"])
 def search():
+    """
+    Ruta para buscar imagenes
+    """
     if request.method == "GET":
         images = []
         for ext in config.ALLOWED_EXTENSIONS:
@@ -47,6 +50,9 @@ def search():
 
 @app.route("/upload-images/", methods=["GET", "POST"])
 def upload_files():
+    """
+    Ruta para subir imagenes
+    """
     # Get the name of the uploaded files
     if request.method == "POST":
         files = request.files.getlist("file[]")
