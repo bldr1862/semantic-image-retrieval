@@ -1,5 +1,9 @@
 # Semantic Image Retrieval
 
+<p>
+Alguna vez se han preguntado si pueden buscar imagenes en su computador tal como lo hacen en Google? <br>
+Aplicando tecnicas de Computer Vision, Natural Lenguage Processing y un poco de creatividad se puede! <br>
+</p>
 <img src="example.PNG" alt="drawing" style="width:700px;"/>
 
 ### Instalar dependencias

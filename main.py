@@ -51,7 +51,7 @@ def search():
 @app.route("/upload-images/", methods=["GET", "POST"])
 def upload_files():
     """
-    Ruta para subir imagenes
+    Ruta para subir imagenes, esto toma tiempo ya que necesita indexar las imagenes nuevas
     """
     # Get the name of the uploaded files
     if request.method == "POST":
@@ -70,5 +70,5 @@ def upload_files():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
 
