@@ -19,14 +19,23 @@ from tensorflow.keras.applications.vgg16 import preprocess_input
 import config
 
 def allowed_file(filename):
+    """
+    Revisa si el archivo tiene una extension valida
+    """
     basename, ext = os.path.splitext(filename)
     return  ext in config.ALLOWED_EXTENSIONS
 
 def create_dir_if_not_exists(path):
+    """
+    Crea un directorio si no existe
+    """
     if not os.path.exists(path):
         os.makedirs(path)
 
 def init_metadata_if_not_exists():
+    """
+    Crea los archivos dentro de metadata en caso de que no existan
+    """
     for cfg in config.MODELS:
         if not os.path.exists(config.MODELS[cfg]["descriptors"]):
             df = pd.DataFrame()
@@ -35,6 +44,9 @@ def init_metadata_if_not_exists():
 
 
 def upload_files(files):
+    """
+    Sube los archivos a la carpeta definida
+    """
     # Iterate over files
     for file in files:
         # Check if file exist and have an allowed extension
@@ -45,17 +57,29 @@ def upload_files(files):
             file.save(os.path.join(config.UPLOAD_FOLDER, filename))
 
 def load_kv_model(path):
+    """
+    Carga el LookUpTable de W2V
+    """
     return KeyedVectors.load(path, mmap='r')
 
 def load_tf_model(path):
+    """
+    Carga el modelo de regresion de imagenes
+    """
     return tf.keras.models.load_model(path)
 
 def read_stopwords(path):
+    """
+    Carga las stopwords para el modelo de texto
+    """
     with open(path, 'r') as f:
         stopwords = f.readlines()
     return [stopword.strip() for stopword in stopwords]
 
 def load_model(model):
+    """
+    Wrapper de las funcioens load_kf, load_tf, read_stopwords
+    """
     # model :: english-128
     text_model = load_kv_model(config.MODELS[model]["text-model"])
     image_model = load_tf_model(config.MODELS[model]["image-model"])
@@ -63,25 +87,46 @@ def load_model(model):
     return image_model, text_model, stopwords
 
 def annotations_to_lower(annotations):
+    """
+    Recibe una lista de textos y los pasa a minuscula
+    """
     return [ann.lower() for ann in annotations]
 
 def annotations_to_unidecode(annotations):
+    """
+    Recibe una lista de textos y quita los caracteres extranos
+    """
     return [unidecode(ann) for ann in annotations]
 
 def remove_non_alphabetic(annotations):
+    """
+    Recibe una lista de textos y elimina los numeros u otros caracteres
+    """
     regex = re.compile('[^a-zA-Z]')
     return [regex.sub(' ', ann) for ann in annotations]
 
 def strip_annotations(annotations):
+    """
+    Recibe una lista de textos y quita los espacios al comienzo y final
+    """
     return [ann.strip() for ann in annotations]
 
 def remove_stopwords(annotations, stop_words=[]):
+    """
+    Recibe una lista de textos y stopwords, luego elimina las stopwords para cada elemento de la lista de textos
+    """
     return [' '.join([word for word in ann.split() if word not in stop_words]) for ann in annotations]
 
 def tokenize_annotations(annotations):
+    """
+    Recibe una lista de textos y los tokeniza: "hola como estas" -> ["hola", "como", "estas"]
+    """
     return [ann.split() for ann in annotations]
 
 def clean_annotation_pipeline(annotation, stopwords):
+    """
+    Wrapper de todas las funciones de procesamiento de texto anteriores
+    """
     # convert to list if necessary
     if not isinstance(annotation, list):
         annotations = [annotation]
@@ -93,6 +138,9 @@ def clean_annotation_pipeline(annotation, stopwords):
     return annotations
 
 def get_word_vector(kv_vectors, word, missing_mode="zeros"):
+    """
+    Recibe una palabra y retorna su vector, si no esta en el vocabulario retonar ceros
+    """
     if word in kv_vectors.vocab:
         return kv_vectors[word]
     else:
@@ -102,6 +150,10 @@ def get_word_vector(kv_vectors, word, missing_mode="zeros"):
 
 def get_annotations_vector(kv_vectors, annotations, missing_mode="zeros", agg_mode="mean"):
     # convert to list if necessary
+    """
+    Recibe una lista de frases y retonar el vector de la clase segun el metodo establecido:
+    agg_mode = mean: promedia los vectores de las palabras
+    """
     if not isinstance(annotations, list):
         annotations = [annotations]
     sentences_vectors = []
@@ -115,6 +167,9 @@ def get_annotations_vector(kv_vectors, annotations, missing_mode="zeros", agg_mo
 
 
 def get_image_descriptors(model, paths, resize=224):
+    """
+    Recibe el modelo de imagenes junto una lista imagenes y calcula su descriptores
+    """
     if not isinstance(paths, list):
         paths = [paths]
     n = paths.__len__()
@@ -130,6 +185,9 @@ def get_image_descriptors(model, paths, resize=224):
     return descriptors
 
 def update_descriptors(model, cfg):
+    """
+    Actualiza los archivos de metadata según la configuracion dada
+    """
     metadata = pd.read_csv(config.MODELS[cfg]["descriptors"], sep="|")
     images = [img.replace("\\","/") for ext in config.ALLOWED_EXTENSIONS for img in glob.glob(config.UPLOAD_FOLDER+f"*{ext}") ]
 
@@ -147,10 +205,16 @@ def update_descriptors(model, cfg):
     metadata_update.to_csv(config.MODELS[cfg]["descriptors"], sep="|", index=False)
 
 def cosine_similarity(array1, array2):
+    """
+    Calcula la similitud coseno entre dos arrays
+    """
     # -sum(l2_norm(y_true) * l2_norm(y_pred))
     return -dot(array1, array2)/(norm(array1)*norm(array2))
 
 def get_neighbors(metadata, descriptor, k=5):
+    """
+    Busca los k vecinos mas de un array::descriptor en un dataframe::metadata
+    """
     neighbors = metadata.copy()
     cols = [x for x in neighbors.columns if "des" in x]
 
@@ -160,6 +224,9 @@ def get_neighbors(metadata, descriptor, k=5):
 
 
 def search(query, stopwords, text_model, cfg):
+    """
+    Recibe un texto y busca las imagenes correspondientes
+    """
     query = clean_annotation_pipeline(query, stopwords)
     query_descriptor = get_annotations_vector(text_model, query)[0]
 
