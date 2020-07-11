@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, redirect
+from flask import Flask, request, flash, redirect, url_for
 from flask import render_template
 
 import glob
@@ -59,6 +59,7 @@ def upload_files():
         utils.upload_files(files)
         # Update metadata
         utils.update_descriptors(image_model, MODEL_CONFIG)
+        return redirect(url_for('search'))
     return render_template("upload-files.html", cfg=MODEL_CONFIG)
 
 # @app.route("/config/", methods=["GET", "POST"])

@@ -1,7 +1,7 @@
 UPLOAD_FOLDER = "static/uploads/" # Carpeta donde se guardan las fotos
 ALLOWED_EXTENSIONS = [".jpg"] # Extensiones permitidas por el sistema, se pueden agregar otras si es encesario
 METADATA_DIR = "metadata/" # Carpeta que contiene la metadata
-
+GRID_SIZE = 3 # NO cambiar: Controla la cantidad de imagenes por fila, NO TOCAT
 
 
 DFLT_NEIGHBORS = 500 # Numero de imagenes que muestra cuando se realiza una busqueda
