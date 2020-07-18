@@ -16,7 +16,7 @@ MODELS = {
     "english-300":{
         "image-model":"models/english-300/image-model/",
         "text-model":"models/english-300/english-300.kv",
-        "stopwords":"stopwords/english.txt",
+        "stopwords":"stopwords/en-stopwords.txt",
         "descriptors":f"{METADATA_DIR}/descriptors-en-300.csv",
     },
     "spanish-128":{
