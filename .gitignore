@@ -11,3 +11,6 @@ __pycache__/*
 # Do not upload local data
 static/uploads/*
 metadata/*
+
+# Do not upload zip files
+*.zip

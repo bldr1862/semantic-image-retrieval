@@ -62,14 +62,5 @@ def upload_files():
         return redirect(url_for('search'))
     return render_template("upload-files.html", cfg=MODEL_CONFIG)
 
-# @app.route("/config/", methods=["GET", "POST"])
-# def model_config():
-#     # Get the name of the uploaded files
-#     if request.method == "POST":
-#         pass
-#     return render_template("config.html", cfg=MODEL_CONFIG)
-
-
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
-
+    app.run(debug=False, port=8080)

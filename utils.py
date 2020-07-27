@@ -142,7 +142,7 @@ def get_word_vector(kv_vectors, word, missing_mode="zeros"):
     Recibe una palabra y retorna su vector, si no esta en el vocabulario retonar ceros
     """
     if word in kv_vectors.vocab:
-        return kv_vectors[word]
+        return kv_vectors.vocab[word]
     else:
         # what to do with unknown words
         if missing_mode == "zeros":
